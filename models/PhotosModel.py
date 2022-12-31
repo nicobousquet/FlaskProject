@@ -15,7 +15,7 @@ def select_photos_by_continent(continent):
 def select_photo_by_id(id):
     connection = db_connect('root', 'root', 'localhost', 'php_db')
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM {} WHERE id=%s".format(self.table), (id,))
+    cursor.execute("SELECT * FROM {} WHERE id=%s".format('Photos'), (id,))
     result = cursor.fetchall()
     cursor.close()
     connection.close()
