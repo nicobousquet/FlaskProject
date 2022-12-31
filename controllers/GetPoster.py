@@ -1,4 +1,5 @@
 from flask import Flask, render_template, session, url_for, Blueprint
+from models.PhotosModel import *
 
 getposter = Blueprint('GetPoster', __name__)
 
@@ -9,4 +10,6 @@ def index(region):
         session['login'] = False
     if 'password' not in session:
         session['password'] = True
-    return render_template('getposter.html', region=region)
+
+    photos = select_photos_by_continent(region)
+    return render_template('navbar.html') + render_template('getposter.html', region=region, photos=photos)
