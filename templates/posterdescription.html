@@ -151,7 +151,7 @@
 			<div style="margin-bottom: 50px">
 				<label for="size_form" class="font">Size (cm):</label>
 				<form id="size_form" name="size_form"
-					  action=""
+					  action="{{url_for('MyCart.add_to_cart', id=photo[0][0])}}"
 					  method="post" style="display: flex; flex-direction: column">
 					<div>
 						<div class="button">

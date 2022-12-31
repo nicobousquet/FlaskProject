@@ -15,7 +15,7 @@ def login():
     user = select_user_by_email_and_password(email, password)
     if user:
         session['login'] = user[0][0]
-        session['email'] = user[0][3]
+        session['email'] = user[0][2]
         session['password'] = True
     else:
         session['password'] = False
