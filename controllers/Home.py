@@ -4,6 +4,7 @@ home = Blueprint('Home', __name__)
 
 
 @home.route('/')
+@home.route('/home')
 def index():
     if 'login' not in session:
         session['login'] = False

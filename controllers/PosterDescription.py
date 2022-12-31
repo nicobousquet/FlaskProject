@@ -3,9 +3,9 @@ from models.PhotosModel import *
 
 posterdescription = Blueprint('PosterDescription', __name__)
 
-
+@posterdescription.route('/posterdescription/')
 @posterdescription.route('/posterdescription/<id>')
-def index(id):
+def index(id = 3):
     if 'login' not in session:
         session['login'] = False
     if 'password' not in session:

@@ -1,4 +1,3 @@
-import mysql.connector
 from models.db_config import db_connect
 
 
