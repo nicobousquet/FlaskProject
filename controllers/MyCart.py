@@ -52,10 +52,10 @@ def add_to_cart(id):
 @mycart.route('/mycart/remove_item/<poster_id>/<quantity>/<size>')
 def remove_item(poster_id, quantity, size):
     delete_item(session['email'], poster_id, quantity, size)
-    return redirect(url_for('my_cart'))
+    return redirect(url_for('MyCart.index'))
 
 
 @mycart.route('/mycart/remove_all_items')
 def remove_all_items():
     delete_all()
-    return redirect(url_for('my_cart'))
+    return redirect(url_for('MyCart.index'))

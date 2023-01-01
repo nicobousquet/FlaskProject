@@ -128,7 +128,7 @@
     <li class="showhim nav_right"><span>{{ session['login'] }}</span>
         <div class="showme">
             <div>
-                <form method="post" action="">
+                <form method="post" action="{{url_for('MyOrders.index')}}">
                     <div class="button_div" style="margin: 2px">
                         <input type="submit" name="myorders" value="My orders">
                     </div>

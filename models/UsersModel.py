@@ -24,7 +24,7 @@ def select_user_by_email_and_password(email, password):
 def select_user_by_email(email):
     connection = db_connect('root', 'root', 'localhost', 'php_db')
     cursor = connection.cursor()
-    query = "SELECT * FROM {} WHERE email = %s".format(self.table)
+    query = "SELECT * FROM {} WHERE email = %s".format('Users')
     values = (email,)
     cursor.execute(query, values)
     return cursor.fetchall()

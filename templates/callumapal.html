@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Connecting to UMAPal</title>
+</head>
+<body onload="document.umapal.submit()">
+<!-- <body onload="document.forms['member_signup'].submit()"> -->
+
+<h3>Connecting to UMAPal...</h3>
+
+<!-- Ver https://developer.paypal.com/api/nvp-soap/paypal-payments-standard/integration-guide/formbasics/ -->
+<form name="umapal" action="{{ url_for('umapal.processpayment') }}" method="post">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="{{ user_cart[0].email_user }}">
+    <!-- Indicamos que la direccion viene dada por la web -->
+    <input type="hidden" name="user_cart" value="{{user_cart}}">
+    <input type="hidden" name="address_override" value="1">
+    <input type="hidden" name="first_name" value="{{ form['fname'] }}">
+    <input type="hidden" name="last_name" value="{{ form['lname'] }}">
+    <input type="hidden" name="address1" value="{{ form['address'] }}">
+    <input type="hidden" name="city" value="{{ form['city'] }}">
+    <input type="hidden" name="zip" value="{{ form['postal_code'] }}">
+    <input type="hidden" name="country" value="{{ form['country'] }}">
+    <input type="hidden" name="return" value="{{ url_for('PaymentSuccess.index') }}">
+    <input type="hidden" name="cancel_return" value="{{ url_for('PaymentCancel.index') }}">
+    <!-- Este valor no existe en paypal, pero nos ayudara a la hora de simular peticiones unicas -->
+    <input type="hidden" name="cartID" value="{{ actual_request }}">
+    <input type="submit" value="Send to UMAPal"/>
+</form>
+
+</body>
+</html>
