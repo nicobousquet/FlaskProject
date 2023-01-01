@@ -15,7 +15,7 @@ def insert_order(email_user, order_id, photo_id, price, size, quantity, date):
 def select_orders(email_user):
     connection = db_connect()
     cursor = connection.cursor()
-    sql = "SELECT * FROM Orders INNER JOIN Photos ON Photos.id = Orders.photo_id WHERE email_user = %s ORDER BY date DESC, order_id"
+    sql = "SELECT * FROM Orders INNER JOIN Photos ON Photos.id = Orders.photo_id WHERE email_user = %s ORDER BY date ASC, order_id"
     values = (email_user,)
     cursor.execute(sql, values)
     orders = cursor.fetchall()

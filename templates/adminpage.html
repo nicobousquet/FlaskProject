@@ -16,7 +16,7 @@
     <h1>Requests:</h1>
     <div class="requests">
         {% for request in requests %}
-        <p class="request"> {{ request[0] }}:{{request[1]}} ==> {{ request[3] }} {{ request[2] }}</p>
+        <p class="request"> {{ request[0] }} ({{request[1]}}:{{request[2]}}) at {{request[3]}} ==> {{ request[5] }}  {{ request[4] }} </p>
         {% endfor %}
     </div>
 </body>
