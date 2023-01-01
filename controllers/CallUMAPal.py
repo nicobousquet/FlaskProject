@@ -1,7 +1,7 @@
 import binascii
 import pickle
 import os
-from flask import Flask, render_template, session, url_for, Blueprint, request
+from flask import render_template, session, Blueprint, request
 import base64
 from models.CartModel import *
 

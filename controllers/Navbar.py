@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, url_for, Blueprint, request, redirect
+from flask import session, Blueprint, request, redirect
 from models.UsersModel import *
 
 navbar = Blueprint('Navbar', __name__)
@@ -19,6 +19,7 @@ def login():
         session['password'] = True
     else:
         session['password'] = False
+
     return redirect(request.referrer)
 
 

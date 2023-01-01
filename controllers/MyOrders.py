@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, url_for, Blueprint, request, redirect
+from flask import render_template, session, url_for, Blueprint, redirect
 from models.OrdersModel import *
 
 myorders = Blueprint('MyOrders', __name__)

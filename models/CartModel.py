@@ -21,7 +21,7 @@ def select_item_from_cart(email):
 
 
 def delete_item(email, id, quantity, size):
-    connection = db_connect('root', 'root', 'localhost', 'php_db')
+    connection = db_connect()
     cursor = connection.cursor()
     query = "DELETE FROM Cart WHERE email_user = %s AND photo_id = %s AND quantity = %s AND size = %s LIMIT 1"
     cursor.execute(query, (email, id, quantity, size))
@@ -30,7 +30,7 @@ def delete_item(email, id, quantity, size):
 
 
 def delete_all():
-    connection = db_connect('root', 'root', 'localhost', 'php_db')
+    connection = db_connect()
     cursor = connection.cursor()
     query = "TRUNCATE TABLE Cart"
     cursor.execute(query)

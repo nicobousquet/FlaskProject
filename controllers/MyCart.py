@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, url_for, Blueprint, redirect, request
+from flask import render_template, session, url_for, Blueprint, redirect, request
 from models.CartModel import *
 
 mycart = Blueprint('MyCart', __name__)

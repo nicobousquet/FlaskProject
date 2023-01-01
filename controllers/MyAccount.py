@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, url_for, Blueprint, request, redirect
+from flask import render_template, session, Blueprint, request, redirect
 from models.UsersModel import *
 
 myaccount = Blueprint('MyAccount', __name__)
@@ -14,7 +14,7 @@ def index():
     return render_template('navbar.html', data=data) + render_template('myaccount.html', data=data)
 
 
-@myaccount.route('/myaccount/add_new_user', methods=['POST'])
+@myaccount.route('/myaccount/add_new_user', methods=['POST', 'GET'])
 def add_new_user():
     if not email_used(request.form['email']):
         insert_new_user(request.form['fname'], request.form['lname'], request.form['email'], request.form['password'])
@@ -23,7 +23,7 @@ def add_new_user():
         return redirect('/home')
     else:
         emailused = True
-        return render_template('index.html', email_used=emailused)
+        return render_template('navbar.html') + render_template('myaccount.html', email_used=emailused)
 
 
 def email_used(email):

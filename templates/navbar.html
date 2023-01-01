@@ -143,6 +143,9 @@
             </div>
         </div>
     </li>
+    {% if session['email']=='nbousquet99@gmail.com' %}
+    <li class="nav_right"><a href="{{ url_for('AdminPage.index') }}"><span>Admin</span></a></li>
+    {% endif %}
     {% endif %}
 </ul>
 </body>

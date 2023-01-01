@@ -1,6 +1,6 @@
 import base64
 
-from flask import Flask, render_template, session, url_for, Blueprint, redirect, request
+from flask import render_template, session, Blueprint, request
 from models.OrdersModel import *
 from models.CartModel import *
 import datetime
