@@ -6,11 +6,6 @@ mycart = Blueprint('MyCart', __name__)
 
 @mycart.route('/mycart')
 def index():
-    if 'login' not in session:
-        session['login'] = False
-    if 'password' not in session:
-        session['password'] = True
-
     if 'email' in session:
         user_cart = select_item_from_cart(session['email'])
         cart_total_price = get_cart_total_price(user_cart)

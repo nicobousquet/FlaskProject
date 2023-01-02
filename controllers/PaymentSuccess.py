@@ -11,11 +11,6 @@ paymentsuccess = Blueprint('PaymentSuccess', __name__)
 
 @paymentsuccess.route('/paymentsuccess', methods=['POST'])
 def index():
-    if 'login' not in session:
-        session['login'] = False
-    if 'password' not in session:
-        session['password'] = True
-
     actual_request = request.form['cartID']
     user_cart = pickle.loads(base64.b64decode(request.form['user_cart_encoded']))
     date = datetime.datetime.now().strftime("%d %b, %Y")

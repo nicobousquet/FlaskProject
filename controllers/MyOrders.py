@@ -6,11 +6,6 @@ myorders = Blueprint('MyOrders', __name__)
 
 @myorders.route('/myorders', methods=['POST', 'GET'])
 def index():
-    if 'login' not in session:
-        session['login'] = False
-    if 'password' not in session:
-        session['password'] = True
-
     if 'email' in session:
         user_orders_tmp = select_orders(session['email'])
         if user_orders_tmp:

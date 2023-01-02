@@ -3,9 +3,9 @@ from datetime import datetime
 from models.RequestsModel import *
 
 
-def save_requests(app):
+def before_request(app):
     @app.before_request
-    def before_request():
+    def save_request():
         # Get the request method and URL
         method = request.method
         url = request.url
@@ -23,3 +23,10 @@ def save_requests(app):
             email_user = 'unknown'
 
         insert_request(email_user, ip_addr, port, formatted_date, method, url)
+
+    @app.before_request
+    def session_check():
+        if 'login' not in session:
+            session['login'] = False
+        if 'password' not in session:
+            session['password'] = True

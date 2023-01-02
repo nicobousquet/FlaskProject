@@ -6,10 +6,5 @@ posterdescription = Blueprint('PosterDescription', __name__)
 @posterdescription.route('/posterdescription/')
 @posterdescription.route('/posterdescription/<id>')
 def index(id = 3):
-    if 'login' not in session:
-        session['login'] = False
-    if 'password' not in session:
-        session['password'] = True
-
     photo = select_photo_by_id(id)
     return render_template('navbar.html') + render_template('posterdescription.html', photo=photo)

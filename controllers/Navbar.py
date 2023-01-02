@@ -6,10 +6,6 @@ navbar = Blueprint('Navbar', __name__)
 
 @navbar.route('/navbar/login', methods=['POST'])
 def login():
-    if 'login' not in session:
-        session['login'] = False
-    if 'password' not in session:
-        session['password'] = True
     email = request.form['email_login']
     password = request.form['password_login']
     user = select_user_by_email_and_password(email, password)

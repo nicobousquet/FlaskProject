@@ -14,7 +14,7 @@ from umapal.ProcessPayment import umapal
 from main_utils import *
 
 app = Flask(__name__)
-save_requests(app)
+before_request(app)
 
 app.register_blueprint(home)
 app.register_blueprint(getposter)
