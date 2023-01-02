@@ -5,24 +5,36 @@
 <body onload="document.umapal.submit()">
 <!-- <body onload="document.forms['member_signup'].submit()"> -->
 
+<!-- Display a message indicating that the page is connecting to UMAPal -->
 <h3>Connecting to UMAPal...</h3>
 
-<!-- Ver https://developer.paypal.com/api/nvp-soap/paypal-payments-standard/integration-guide/formbasics/ -->
+<!-- Create a form that submits a request to the 'processpayment' route of the UMAPal server when the page is loaded -->
 <form name="umapal" action="{{ url_for('umapal.processpayment') }}" method="post">
+    <!-- Specify the command for the UMAPal server to execute -->
     <input type="hidden" name="cmd" value="_xclick">
+    <!-- Specify the email address of the user making the payment -->
     <input type="hidden" name="business" value="{{ user_cart[0].email_user }}">
-    <!-- Indicamos que la direccion viene dada por la web -->
+    <!-- Include the user's cart information in a serialized form -->
     <input type="hidden" name="user_cart" value="{{user_cart}}">
+    <!-- Indicate that the address information is provided by the website -->
     <input type="hidden" name="address_override" value="1">
+    <!-- Specify the user's first name -->
     <input type="hidden" name="first_name" value="{{ form['fname'] }}">
+    <!-- Specify the user's last name -->
     <input type="hidden" name="last_name" value="{{ form['lname'] }}">
+    <!-- Specify the user's address -->
     <input type="hidden" name="address1" value="{{ form['address'] }}">
+    <!-- Specify the user's city -->
     <input type="hidden" name="city" value="{{ form['city'] }}">
+    <!-- Specify the user's postal code -->
     <input type="hidden" name="zip" value="{{ form['postal_code'] }}">
+    <!-- Specify the user's country -->
     <input type="hidden" name="country" value="{{ form['country'] }}">
+    <!-- Specify the URL to redirect to after a successful payment -->
     <input type="hidden" name="return" value="{{ url_for('PaymentSuccess.index') }}">
+    <!-- Specify the URL to redirect to after a cancelled payment -->
     <input type="hidden" name="cancel_return" value="{{ url_for('PaymentCancel.index') }}">
-    <!-- Este valor no existe en paypal, pero nos ayudara a la hora de simular peticiones unicas -->
+    <!-- Specify a value to help identify unique requests (not used by Paypal) -->
     <input type="hidden" name="cartID" value="{{ actual_request }}">
     <input type="submit" value="Send to UMAPal"/>
 </form>

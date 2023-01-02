@@ -78,11 +78,15 @@
 </head>
 <body>
 {% for item in user_cart %}
+    <!-- Container div for each item in the user's cart -->
     <div class="flex_container font">
+        <!-- Flexbox container for the item's info -->
         <div style="display: flex; flex-direction: row">
+            <!-- Div containing a link to the poster's description page and the poster's image -->
             <div class="photos">
                 <a href="{{ url_for('PosterDescription.index', id=item[2]) }}"><img src="{{ item[8] }}" alt=""></a>
             </div>
+            <!-- Div containing information about the item (name, quantity, size, price) -->
             <div class="photos">
                 <p style="">{{ item[7] }} #{{ item[0] }}<br></p>
                 <p style="">Quantity: {{ item[3] }}<br></p>
@@ -91,12 +95,14 @@
             <div class="photos">
                 <p style="">Price: {{ item[5] }}$<br></p>
             </div>
+            <!-- Div containing a link to remove the item from the cart -->
             <div class="photos font">
                 <a href="{{ url_for('MyCart.remove_item', poster_id=item[2], quantity=item[3], size=item[4]) }}" style="font-size: small; float: right">Remove from cart</a>
             </div>
         </div>
     </div>
 {% endfor %}
+<!-- Div containing the total price of the cart and a link to the payment form -->
 <div class="photos" style="text-align: center">
     <p class="font">Total price: {{ cart_total_price }}$</p>
     <a href="{{url_for('PaymentForm.index')}}"><input type="button" value="Pay"/></a>

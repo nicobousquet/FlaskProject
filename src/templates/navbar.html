@@ -94,22 +94,29 @@
 
 
 
+
     </style>
 </head>
 
 <body>
+<!-- Navigation bar for the website, with links to various regions and the user's cart -->
 <ul class="navbar">
+    <!-- Home page link -->
     <li><a href="{{ url_for('Home.index') }}"><span>Home</span></a></li>
+    <!-- Links to the "GetPoster" page with a specific region specified -->
     <li><a href="{{ url_for('GetPoster.index', region='Europe') }}"><span>Europe</span></a></li>
     <li><a href="{{ url_for('GetPoster.index', region='Asia') }}"><span>Asia</span></a></li>
     <li><a href="{{ url_for('GetPoster.index', region='America') }}"><span>America</span></a></li>
     <li><a href="{{ url_for('GetPoster.index', region='Africa') }}"><span>Africa</span></a></li>
     <li><a href="{{ url_for('GetPoster.index', region='Oceania') }}"><span>Oceania</span></a></li>
+    <!-- Link to the user's cart -->
     <li class="nav_right"><a href="{{ url_for('MyCart.index') }}"><span>My cart</span></a></li>
+    <!-- If the user is not logged in, display a login form -->
     {% if not session['login'] %}
     <li class="showhim nav_right"><span>My account</span>
         <div class="showme">
             <div>
+                <!-- Login form -->
                 <form method="post" action="{{ url_for('Navbar.login') }}">
                     <div>
                         <input type="email" id="email_login" name="email_login" placeholder="Email" required><br>
@@ -118,16 +125,20 @@
                     </div>
                     <div class="button_div">
                         <input type="submit" style="width: 100%" value="Submit">
+                        <!-- Display error message if login fails -->
                         <div style="color:red">{% if not session['password'] %}Wrong email or password{% endif %}</div>
+                        <!-- Link to the "MyAccount" page for users to create an account -->
                         <a href="{{ url_for('MyAccount.index')}}" style="font-size: small">No account ?</a>
                     </div>
                 </form>
             </div>
         </div>
     </li>
+    <!-- If the user is logged in, display their account information and a disconnect button -->
     {% else %}
     <li class="showhim nav_right"><span>{{ session['login'] }}</span>
         <div class="showme">
+            <!-- Form to access the user's orders -->
             <div>
                 <form method="post" action="{{url_for('MyOrders.index')}}">
                     <div class="button_div" style="margin: 2px">
@@ -135,15 +146,17 @@
                     </div>
                 </form>
             </div>
+            <!-- Form to disconnect the user from their account -->
             <div>
                 <form method="post" action="{{ url_for('Navbar.disconnect_user') }}">
                     <div class="button_div" style="margin: 2px">
-                        <input type="submit" name="disconnect" value="Disconnect">
+                        <input type="submit" name="Log out" value="Disconnect">
                     </div>
                 </form>
             </div>
         </div>
     </li>
+    <!-- If the user is the admin, display a link to the admin page -->
     {% if session['email']=='nbousquet99@gmail.com' %}
     <li class="nav_right"><a href="{{ url_for('AdminPage.index') }}"><span>Admin</span></a></li>
     {% endif %}

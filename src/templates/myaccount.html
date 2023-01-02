@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>My account</title>
+    <!-- Include jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
+		/* Style input fields for text, email, password, and select elements */
 		input[type=text], input[type=email], input[type=password], select {
 			padding: 6px 8px;
 			margin: 15px 10px 0 0;
@@ -15,6 +17,7 @@
 			width: 100%;
 		}
 
+		/* Style submit button */
 		#submit {
 			background-color: #abac87;
 			color: white;
@@ -25,21 +28,25 @@
 			cursor: pointer;
 		}
 
+		/* Change submit button background color on hover */
 		input:enabled[type=submit]:hover {
 			background-color: rgb(25 24 24 / 16%)
 		}
 
+		/* Style elements with class "font" */
 		.font {
 			font-family: "Google Sans", Roboto, Arial, sans-serif;
 			font-weight: 600;
 			color: #b0b0b4;
 		}
 
-		.form {
+		/* Style elements with class "form" */
+        .form {
 			text-align: center;
 			margin: 50px;
 		}
 
+		/* Style elements with class "title" */
 		.title {
 			height: 100px;
 			width: 100%;
@@ -47,12 +54,14 @@
 			margin-top: 75px;
 		}
 
+		/* Style elements with class "line" */
 		.line {
 			display: flex;
 			flex-direction: row;
 			justify-content: center;
 		}
 
+		/* Style elements with class "form_box" */
 		.form_box {
 			background-color: #f8f8f8;
 			align-self: center;
@@ -67,24 +76,18 @@
 			z-index: -1;
 		}
 
+		/* Style elements with the ID "message" */
 		#message {
 			font-size: small;
 			margin-top: 20px;
 			font-weight: normal;
 		}
 
-		/*
-				div {
-					border-radius: 5px;
-					background-color: #f2f2f2;
-					padding: 20px;
-				}
-		 */
-
     </style>
 </head>
 
 <body>
+<!-- Function to check if password and confirm password fields match -->
 <script>
 	var match_password = function () {
 		if (document.getElementById('password').value == document.getElementById('confirm').value) {
@@ -100,34 +103,33 @@
 
 </script>
 
+<!-- Form for creating a new account -->
 <div class="form_box">
     <form method="post" class="font form" action="{{url_for('MyAccount.add_new_user')}}">
+        <!-- Title for form -->
         <div class="title">
             Create your account
         </div>
+        <!-- Flexbox container for input fields -->
         <div class="line">
+            <!-- First name input field -->
             <input type="text" id="fname" name="fname" placeholder="First name" pattern="[A-Za-z]+" required><br>
+            <!-- Last name input field -->
             <input type="text" id="lname" name="lname" placeholder="Last name" pattern="[A-Za-z]+" required><br>
+            <!-- Email input field -->
+            <input type="email" id="email" name="email" placeholder="Email" required><br>
+            <!-- Password input field -->
+            <input type="password" id="password" name="password" placeholder="Password" onkeyup='match_password()' required><br>
+            <!-- Confirm password input field -->
+            <input type="password" id="confirm" name="confirm" placeholder="Confirm Password" onkeyup='match_password()' required><br>
         </div>
-        <div class="line">
-            <input type="email" id="email" name="email" placeholder="Email address"
-                   pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required><br><br>
-        </div>
-        <div class="line">
-            <input type="password" id="password" name="password" placeholder="Password" onkeyup='match_password();'
-                   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8, 16}" required><br>
-            <input type="password" id="confirm" name="confirm" placeholder="Confirm password"
-                   onkeyup='match_password();' pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8, 16}" required><br>
-            <span id='message'></span>
-        </div>
-        <div style="display: flex; flex-direction: column; color: red">
-            <input id="submit" type="submit" value="Submit">
-            {% if email_used %}
-            Email used by another user
-            {% endif %}
-        </div>
+        <!-- Div to display whether password and confirm password fields match -->
+        <div id="message"></div>
+        <!-- Submit button -->
+        <input type="submit" value="Submit" id="submit" disabled>
     </form>
 </div>
-</body>
 
+</body>
 </html>
+

@@ -79,31 +79,40 @@
     </style>
 </head>
 <body>
+<!-- Display the heading "My orders" -->
 <h1 class="font" style="margin: 30px"> My orders</h1>
+<!-- Iterate through each order in the user's order history -->
 {% for order in user_orders %}
+<!-- Display the name of the poster and the order number for the current order -->
 <h2 style="color: #404040" class="font">{{ order[0][7] }} --> order #{{ order[0][2] }}</h2>
+<!-- Iterate through each item in the current order -->
 {% for item in order %}
-{% if item != order[-1] %}
-<div class="flex_container font">
-    <div style="display: flex; flex-direction: row">
-        <div class="photos">
-            <a href="{{ url_for('PosterDescription.index', photo_id=item[3]) }}"><img src="{{ item[10] }}" alt=""></a>
-        </div>
-        <div class="photos">
-            <p style="">{{ item[9] }} #{{ item[3]}}<br></p>
-            <p style="">Quantity: {{ item[6] }}<br></p>
-            <p style="">Size (cm): {{ item[5] }}<br></p>
-        </div>
-        <div class="photos">
-            <p style="">Price: {{ item[4] }}$<br></p>
-        </div>
-    </div>
-</div>
-{% endif %}
+	<!-- If the current item is not the last item in the order (which is the order's total price), display the item's information -->
+	{% if item != order[-1] %}
+		<!-- Container div for the item's information -->
+		<div class="flex_container font">
+			<!-- Flexbox container for the item's info -->
+			<div style="display: flex; flex-direction: row">
+				<!-- Div containing a link to the poster's description page and the poster's image -->
+				<div class="photos">
+					<a href="{{ url_for('PosterDescription.index', photo_id=item[3]) }}"><img src="{{ item[10] }}" alt=""></a>
+				</div>
+				<!-- Div containing the item's name, quantity, size, and price -->
+				<div class="photos">
+					<p style="">{{ item[9] }} #{{ item[3]}}<br></p>
+					<p style="">Quantity: {{ item[6] }}<br></p>
+					<p style="">Size (cm): {{ item[5] }}<br></p>
+				</div>
+				<!-- Div containing the item's price -->
+				<div class="photos">
+					<p style="">Price: {{ item[4] }}$<br></p>
+				</div>
+			</div>
+		</div>
+	{% endif %}
 {% endfor %}
+<!-- Display the total price for the current order -->
 <div class="photos" style="text-align: center">
-    <p class="font">Total price: {{ order[-1] }}$</p>
+	<p class="font">Total price: {{ order[-1] }}$</p>
 </div>
-{% endfor %}
-</body>
 </html>

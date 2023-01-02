@@ -90,24 +90,30 @@
 </head>
 
 <body>
+<!-- Form for the user to enter their shipment address -->
 <div class="form_box">
     <form method="post" class="font form" action="{{url_for('CallUMAPal.index')}}">
+        <!-- Form header -->
         <div class="title">
             Add your shipment address
         </div>
+        <!-- First and last name input fields -->
         <div class="line">
             <input type="text" id="fname" name="fname" placeholder="First name" pattern="[A-Za-z]+" required><br>
             <input type="text" id="lname" name="lname" placeholder="Last name" pattern="[A-Za-z]+" required><br>
         </div>
+        <!-- Address and appartment input fields -->
         <div class="column">
             <input style="width: 95%;" type="text" name="address" placeholder="Address" required>
             <input style="width: 95%;" type="text" name="appartment" placeholder="Appartment" required>
         </div>
+        <!-- Postal code, city, and country input fields -->
         <div class="line">
             <input type="number" name="postal_code" placeholder="Postal code" required>
             <input type="text" name="city" placeholder="City" required>
             <input type="text" name="country" placeholder="Country" required>
         </div>
+        <!-- Submit button -->
         <div>
             <input id="submit" type="submit" value="Submit">
         </div>

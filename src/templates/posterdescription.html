@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>{{ photo[0][1] }} #{{ photo[0][0] }}</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<style>
+    <meta charset="UTF-8">
+    <title>{{ photo[0][1] }} #{{ photo[0][0] }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
 
 		div.flex_container {
 			display: flex;
@@ -110,24 +110,33 @@
 			font-weight: 600;
 			color: #b0b0b4;
 		}
-	</style>
+
+
+    </style>
 </head>
 <body>
+<!-- Form for the user to select the size and quantity of a poster and add it to their cart -->
 <div class="flex_container">
-	<div class="product">
-		<img src="{{ photo[0][2] }}"
-			 alt="">
-	</div>
-	<div class="product_info">
-		<div class="font product_description ">
-			# {{ photo[0][1]}}
-		</div>
-		<div style="margin-bottom: 35px;">
-			<script>
+    <!-- Display the selected poster -->
+    <div class="product">
+        <img src="{{ photo[0][2] }}" alt="">
+    </div>
+    <!-- Display the description and size options for the poster -->
+    <div class="product_info">
+        <!-- Display the poster's identifier -->
+        <div class="font product_description ">
+            # {{ photo[0][1]}}
+        </div>
+        <div style="margin-bottom: 35px;">
+            <!-- JavaScript function to calculate and display the price of the selected options -->
+            <script>
 				display_price = function () {
+					// Get the value of the selected size option
 					let size = $("input:radio[name ='radio_buttons']:checked").val();
+					// Set the base price of the poster
 					let price = 1000;
 
+					// Modify the price based on the selected size option
 					switch (size) {
 						case "40x50":
 							price = 29.99;
@@ -145,55 +154,62 @@
 							price = 99.99;
 							break;
 					}
+					// Calculate the total price based on the quantity and display it
 					document.getElementById('price').innerHTML = (parseInt(document.getElementById('quantity').value) * price).toFixed(2) + '$';
 				}
-			</script>
-			<div style="margin-bottom: 50px">
-				<label for="size_form" class="font">Size (cm):</label>
-				<form id="size_form" name="size_form"
-					  action="{{url_for('MyCart.add_to_cart', id=photo[0][0])}}"
-					  method="post" style="display: flex; flex-direction: column">
-					<div>
-						<div class="button">
-							<input type="radio" value="40x50" name="radio_buttons" onclick="display_price();"
-								   required>
-							<label class="btn btn-default">40 x 50</label>
-						</div>
-						<div class="button">
-							<input type="radio" value="50x70" name="radio_buttons" onclick="display_price();">
-							<label class="btn btn-default">50 x 70</label>
-						</div>
-						<div class="button">
-							<input type="radio" value="60x90" name="radio_buttons" onclick="display_price();">
-							<label class="btn btn-default">60 x 90</label>
-						</div>
-						<div class="button">
-							<input type="radio" value="100x150" name="radio_buttons" onclick="display_price();">
-							<label class="btn btn-default">100 x 150</label>
-						</div>
-						<div class="button" style="margin-bottom: 3px">
-							<input type="radio" value="120x180" name="radio_buttons" onclick="display_price();">
-							<label class="btn btn-default">120 x 180</label>
-						</div>
-					</div>
-					<div>
-						<label for="quantity" class="font">Quantity:</label>
-						<select id="quantity" onchange="display_price();" name="quantity" style="width: auto">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-						</select>
-					</div>
-					<br><br>
-					<div style="text-align: center" class="buy">
-						<button type="submit">Add to cart</button>
-						<div id="price" class="font"></div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+
+
+            </script>
+            <div style="margin-bottom: 50px">
+                <label for="size_form" class="font">Size (cm):</label>
+                <form id="size_form" name="size_form"
+                      action="{{url_for('MyCart.add_to_cart', id=photo[0][0])}}"
+                      method="post" style="display: flex; flex-direction: column">
+                    <div>
+                        <!-- Each radio button has a value corresponding to the size and an onclick event that updates the price displayed -->
+                        <div class="button">
+                            <input type="radio" value="40x50" name="radio_buttons" onclick="display_price();"
+                                   required>
+                            <label class="btn btn-default">40 x 50</label>
+                        </div>
+                        <div class="button">
+                            <input type="radio" value="50x70" name="radio_buttons" onclick="display_price();">
+                            <label class="btn btn-default">50 x 70</label>
+                        </div>
+                        <div class="button">
+                            <input type="radio" value="60x90" name="radio_buttons" onclick="display_price();">
+                            <label class="btn btn-default">60 x 90</label>
+                        </div>
+                        <div class="button">
+                            <input type="radio" value="100x150" name="radio_buttons" onclick="display_price();">
+                            <label class="btn btn-default">100 x 150</label>
+                        </div>
+                        <div class="button" style="margin-bottom: 3px">
+                            <input type="radio" value="120x180" name="radio_buttons" onclick="display_price();">
+                            <label class="btn btn-default">120 x 180</label>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Dropdown menu for selecting the quantity of photos -->
+                        <label for="quantity" class="font">Quantity:</label>
+                        <select id="quantity" onchange="display_price();" name="quantity" style="width: auto">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+
+                    <!-- This div contains the submit button and the price display -->
+                    <div style="text-align: center" class="buy">
+                        <!-- The submit button adds the product to the cart -->
+                        <button type="submit">Add to cart</button>
+                        <div id="price" class="font"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

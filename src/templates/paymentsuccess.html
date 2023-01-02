@@ -1,15 +1,20 @@
+<!-- Payment completion page for the website -->
 <!DOCTYPE html>
 <html>
 <head>
 </head>
 <body>
-  <h1>Payment completed</h1>
-  Operation code: {{ actual_request }}
-  {% set url = url_for('MyOrders.index') %}
-  {% set refresh = 3 %}
-  {% set header = 'refresh:' ~ refresh ~ '; url=' ~ url %}
-  {% set js = 'window.setTimeout(function() { window.location.href = "' ~ url ~ '"; }, ' ~ refresh*1000 ~ ');' %}
-  <meta http-equiv="refresh" content="{{ refresh }}; url={{ url }}">
-  <script>{{ js }}</script>
+<!-- Page header -->
+<h1>Payment completed</h1>
+<!-- Display the code of the completed operation -->
+Operation code: {{ actual_request }}
+<!-- Set variables for the URL of the "MyOrders" page and the refresh interval -->
+{% set url = url_for('MyOrders.index') %}
+{% set refresh = 3 %}
+<!-- Set the "refresh" HTTP header and a JavaScript timer to redirect to the "MyOrders" page after the specified interval -->
+{% set header = 'refresh:' ~ refresh ~ '; url=' ~ url %}
+{% set js = 'window.setTimeout(function() { window.location.href = "' ~ url ~ '"; }, ' ~ refresh*1000 ~ ');' %}
+<meta http-equiv="refresh" content="{{ refresh }}; url={{ url }}">
+<script>{{ js }}</script>
 </body>
 </html>
