@@ -9,7 +9,7 @@ posterdescription = Blueprint('PosterDescription', __name__)
 # Define the index function to handle rendering the poster description page
 @posterdescription.route('/posterdescription')
 @posterdescription.route('/posterdescription/<id>')
-def index(id=3):
+def index(id=28):
     # Select the photo data for the poster with the specified id
     photo = select_photo_by_id(id)
 

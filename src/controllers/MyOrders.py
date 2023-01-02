@@ -1,4 +1,4 @@
-from flask import render_template, session, url_for, Blueprint, redirect
+from flask import render_template, session, url_for, Blueprint, redirect, make_response
 from ..models.OrdersModel import *
 
 # Create a blueprint for the myorders module.
@@ -13,7 +13,7 @@ def index():
         # Get the user's orders.
         user_orders_tmp = select_orders(session['email'])
         # Check if the user has any orders.
-        if user_orders_tmp:
+        if len(user_orders_tmp) > 0:
             # Initialize a list to hold the user's orders.
             user_orders = [[user_orders_tmp[0]]]
             # Initialize a counter for the orders list.
@@ -31,11 +31,14 @@ def index():
                     i += 1
                     # Start a new group with the current order.
                     user_orders.append([user_orders_tmp[j]])
-            # Calculate the total price for the final group.
-            user_orders[i].append(get_order_total_price(user_orders[i]))
+
+                # Calculate the total price for the final group.
+                user_orders[i].append(get_order_total_price(user_orders[i]))
             # Render the template with the orders information.
             return render_template('navbar.html', user_orders=user_orders) + render_template('myorders.html',
                                                                                              user_orders=user_orders)
+        else:
+            return render_template('navbar.html', user_orders=[]) + render_template('myorders.html', user_orders=[])
     else:
         # Redirect to the login page.
         return redirect(url_for('MyAccount.index'))
