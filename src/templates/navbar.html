@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta charset="UTF-8">
+    <style>
+		input[type=text], input[type=email], input[type=password], select {
+			padding: 6px 8px;
+			margin: 15px 20px 0 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			width: 100%;
+		}
+
+		input[type=submit], button {
+			background-color: #abac87;
+			color: white;
+			padding: 7px 20px;
+			margin: 10px 0;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		input:enabled[type=submit]:hover {
+			background-color: rgb(25 24 24 / 16%)
+		}
+
+		ul.navbar {
+			box-shadow: 0 2px 10px 0 rgb(0 0 0 / 15%);
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			background-color: #fff;
+			display: block;
+			text-align: center;
+			position: -webkit-sticky; /* Safari */
+			position: sticky;
+			top: 0;
+		}
+
+		li.nav_right {
+			float: right;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Google Sans Display", Roboto, Arial, sans-serif;
+			display: flex;
+			flex-direction: column;
+		}
+
+		li span {
+			display: block;
+			color: rgb(95, 99, 104);
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 16px;
+			float: left;
+		}
+
+		li span:hover {
+			color: #1967d2;
+		}
+
+		ul li div.showme {
+			display: none;
+		}
+
+		.showme {
+			position: absolute;
+			background-color: #ffffff;
+			margin-top: 46px;
+			width: 110px;
+			padding: 6px;
+			border-radius: 0 0 5px 5px;
+			box-shadow: 2px 5px 10px 0 rgb(0 0 0 / 15%);
+			display: flex;
+			flex-direction: column;
+		}
+
+		.showhim:hover .showme {
+			display: flex;
+		}
+
+		.button_div {
+			width: 80%;
+			margin: 5px 10px 0;
+		}
+
+
+
+
+    </style>
+</head>
+
+<body>
+<ul class="navbar">
+    <li><a href="{{ url_for('Home.index') }}"><span>Home</span></a></li>
+    <li><a href="{{ url_for('GetPoster.index', region='Europe') }}"><span>Europe</span></a></li>
+    <li><a href="{{ url_for('GetPoster.index', region='Asia') }}"><span>Asia</span></a></li>
+    <li><a href="{{ url_for('GetPoster.index', region='America') }}"><span>America</span></a></li>
+    <li><a href="{{ url_for('GetPoster.index', region='Africa') }}"><span>Africa</span></a></li>
+    <li><a href="{{ url_for('GetPoster.index', region='Oceania') }}"><span>Oceania</span></a></li>
+    <li class="nav_right"><a href="{{ url_for('MyCart.index') }}"><span>My cart</span></a></li>
+    {% if not session['login'] %}
+    <li class="showhim nav_right"><span>My account</span>
+        <div class="showme">
+            <div>
+                <form method="post" action="{{ url_for('Navbar.login') }}">
+                    <div>
+                        <input type="email" id="email_login" name="email_login" placeholder="Email" required><br>
+                        <input type="password" id="password_login" name="password_login" placeholder="Password"
+                               required><br>
+                    </div>
+                    <div class="button_div">
+                        <input type="submit" style="width: 100%" value="Submit">
+                        <div style="color:red">{% if not session['password'] %}Wrong email or password{% endif %}</div>
+                        <a href="{{ url_for('MyAccount.index')}}" style="font-size: small">No account ?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </li>
+    {% else %}
+    <li class="showhim nav_right"><span>{{ session['login'] }}</span>
+        <div class="showme">
+            <div>
+                <form method="post" action="{{url_for('MyOrders.index')}}">
+                    <div class="button_div" style="margin: 2px">
+                        <input type="submit" name="myorders" value="My orders">
+                    </div>
+                </form>
+            </div>
+            <div>
+                <form method="post" action="{{ url_for('Navbar.disconnect_user') }}">
+                    <div class="button_div" style="margin: 2px">
+                        <input type="submit" name="disconnect" value="Disconnect">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </li>
+    {% if session['email']=='nbousquet99@gmail.com' %}
+    <li class="nav_right"><a href="{{ url_for('AdminPage.index') }}"><span>Admin</span></a></li>
+    {% endif %}
+    {% endif %}
+</ul>
+</body>
+</html>
