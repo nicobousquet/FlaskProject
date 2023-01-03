@@ -23,7 +23,7 @@ def index():
 def add_new_user():
     # Check if the email provided in the form data is already in use.
     if not email_used(request.form['email']):
-        # user to the database and set the user's name and email in the session.
+        # insert user to the database and set the user's name and email in the session.
         insert_new_user(request.form['fname'], request.form['lname'], request.form['email'], request.form['password'])
         session['login'] = request.form['fname']
         session['email'] = request.form['email']

@@ -1,4 +1,7 @@
 import unittest
+import sys
+# Add the parent directory to the Python search path
+sys.path.append('..')
 
 # Import the Flask app from the 'main' module
 from src.main import app

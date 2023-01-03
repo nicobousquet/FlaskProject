@@ -1,6 +1,8 @@
 # This is the main module of a Flask application. It sets up the Flask app,
 # imports and registers all of the route functions as blueprints, and runs the app.
-
+import sys
+# Add the parent directory to the Python search path
+sys.path.append('..')
 # Import the route functions from the controllers module.
 from src.controllers.Home import home
 from src.controllers.GetPoster import getposter

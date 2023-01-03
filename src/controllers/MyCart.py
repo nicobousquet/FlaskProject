@@ -24,7 +24,7 @@ def index():
         return render_template('navbar.html') + render_template('mycart.html', user_cart=user_cart,
                                                                 cart_total_price=cart_total_price)
     else:
-        # If the user is not logged in, redirect them to the login page.
+        # If the user is not logged in, redirect him to the login page.
         return redirect(url_for('MyAccount.index'))
 
 

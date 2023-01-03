@@ -17,10 +17,10 @@ def index():
     if session['login']:
         # ...and his email is "nbousquet99@gmail.com",
         if session['email'] == "nbousquet99@gmail.com":
-            # Retrieve a list of request information from the database.
+            # Retrieve a list of requests information from the database.
             requests = select_requests()
 
-            # Render the template with the request information.
+            # Render the template with the requests information.
             return render_template('navbar.html') + render_template('adminpage.html', requests=requests)
 
     # If the user is not logged in or their email is not "nbousquet99@gmail.com",
