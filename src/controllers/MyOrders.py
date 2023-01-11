@@ -32,8 +32,8 @@ def index():
                     # Start a new group with the current order.
                     user_orders.append([user_orders_tmp[j]])
 
-                # Calculate the total price for the final group.
-                user_orders[i].append(get_order_total_price(user_orders[i]))
+            # Calculate the total price for the final group.
+            user_orders[i].append(get_order_total_price(user_orders[i]))
             # Render the template with the orders information.
             return render_template('navbar.html', user_orders=user_orders) + render_template('myorders.html',
                                                                                              user_orders=user_orders)
