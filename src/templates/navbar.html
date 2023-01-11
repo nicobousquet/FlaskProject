@@ -90,11 +90,6 @@
 			width: 80%;
 			margin: 5px 10px 0;
 		}
-
-
-
-
-
     </style>
 </head>
 
@@ -141,8 +136,8 @@
             <!-- Form to access the user's orders -->
             <div>
                 <form method="post" action="{{url_for('MyOrders.index')}}">
-                    <div class="button_div" style="margin: 2px">
-                        <input type="submit" name="myorders" value="My orders">
+                    <div class="button_div">
+                        <input style="padding: 7px 23px; margin-left: -7px" id="button_my_orders" type="submit" name="myorders" value="My orders" >
                     </div>
                 </form>
             </div>
