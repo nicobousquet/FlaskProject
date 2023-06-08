@@ -1,46 +1,31 @@
-# Import the database connection function
-from .db_config import db_connect
+from typing import List, Dict, Any
+from .Model import Model
 
 
-def insert_order(email_user, order_id, photo_id, price, size, quantity, date):
-    """
-    Inserts a new order into the 'Orders' table in the database with the given information.
+class OrdersModel(Model):
+    def __init__(self) -> None:
+        super().__init__()
+        self._TABLE_NAME = 'Orders'
+        self._EMAIL_USER = 'email_user'
+        self._ORDER_ID = 'order_id'
+        self._PHOTO_ID = "photo_id"
+        self._QUANTITY = 'quantity'
+        self._SIZE = 'size'
+        self._PRICE = 'price'
+        self._DATE = 'date'
 
-    Parameters:
-        email_user (str): the email address of the user who placed the order.
-        order_id (int): the ID of the order.
-        photo_id (int): the ID of the photo being ordered.
-        price (float): the price of the photo being ordered.
-        size (str): the size of the photo being ordered.
-        quantity (int): the number of copies of the photo being ordered.
-        date (str): the date the order was placed, in the format 'YYYY-MM-DD HH:MM:SS'.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    sql = "INSERT INTO Orders (email_user, order_id, photo_id, quantity, size, price, date) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = (email_user, order_id, photo_id, quantity, size, price, date)
-    cursor.execute(sql, values)
-    connection.commit()
-    cursor.close()
-    connection.close()
+    def insert_order(self, email_user: str, order_id: int, photo_id: int, price: float, size: str, quantity: int, date: str) -> None:
+        cursor, conn = self.connect()
+        query = f"INSERT INTO {self._TABLE_NAME} ({self._EMAIL_USER}, {self._ORDER_ID}, {self._PHOTO_ID}, {self._QUANTITY}, {self._SIZE}, {self._PRICE}, {self._DATE}) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(query, (email_user, order_id, photo_id, quantity, size, price, date))
+        conn.commit()
+        self.disconnect(cursor, conn)
 
-
-def select_orders(email_user):
-    """
-    Gets all the orders for the given user from the 'Orders' table in the database.
-
-    Parameters:
-        email_user (str): the email address of the user whose orders we are selecting.
-
-    Returns:
-        A list of tuples, where each tuple represents an order in the 'Orders' table.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    sql = "SELECT * FROM Orders INNER JOIN Photos ON Photos.id = Orders.photo_id WHERE email_user = %s ORDER BY date DESC, order_id"
-    values = (email_user,)
-    cursor.execute(sql, values)
-    orders = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return orders
+    def select_orders(self, email_user: str) -> List[Dict[str, Any]]:
+        cursor, conn = self.connect()
+        sql = f"SELECT * FROM {self._TABLE_NAME} INNER JOIN Photos ON Photos.id = Orders.photo_id WHERE {self._EMAIL_USER} = %s ORDER BY {self._DATE} DESC, {self._ORDER_ID}"
+        cursor.execute(sql, (email_user,))
+        result = cursor.fetchall()
+        orders = [{column: value for column, value in zip(cursor.column_names, row)} for row in result]
+        self.disconnect(cursor, conn)
+        return orders

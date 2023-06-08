@@ -1,119 +1,43 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" , lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My orders</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <style>
-		.flex_container {
-			border-radius: 0px;
-			display: flex;
-			flex-direction: column;
-			overflow: hidden;
-			background-color: #f8f8f8;
-			margin: 1px;
-		}
-
-		li span1 {
-			/*background-color: #EFF4C5;*/
-
-		}
-
-		.photos {
-			list-style-type: none;
-			text-align: center;
-			font-size: 20px;
-			display: inline;
-			display: flex;
-			flex-direction: row;
-			align-self: center;
-			padding: 10px;
-			margin: 10px;
-			border-radius: 0px;
-			display: block;
-			width: 300px;
-			height: 150px;
-			writing-mode: vertical-lr;
-			writing-mode: horizontal-tb;
-			text-align: left;
-		}
-
-		img {
-			max-width: 100%;
-			max-height: 100%;
-			border-radius: 10px;
-			transition: transform 1s;
-		}
-
-		.font {
-			font-family: "Google Sans", Roboto, Arial, sans-serif;
-			font-weight: 600;
-			color: #b0b0b4;
-		}
-
-		input[type=text], input[type=email], input[type=password], select {
-			padding: 6px 8px;
-			margin: 15px 10px 0 0;
-			display: inline-block;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			box-sizing: border-box;
-			width: 100%;
-		}
-
-		input[type=button] {
-			background-color: #abac87;
-			color: white;
-			padding: 14px 20px;
-			margin: 50px 0;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-
-		input:enabled[type=button]:hover {
-			background-color: rgb(25 24 24 / 16%)
-		}
-
-
-    </style>
-</head>
-<body>
-<!-- Display the heading "My orders" -->
-<h1 class="font" style="margin: 30px"> My orders</h1>
-<!-- Iterate through each order in the user's order history -->
-{% for order in user_orders %}
-<!-- Display the name of the poster and the order number for the current order -->
-<h2 style="color: #404040" class="font">{{ order[0][7] }} --> order #{{ order[0][2] }}</h2>
-<!-- Iterate through each item in the current order -->
-{% for item in order %}
-	<!-- If the current item is not the last item in the order (which is the order's total price), display the item's information -->
-	{% if item != order[-1] %}
-		<!-- Container div for the item's information -->
-		<div class="flex_container font">
-			<!-- Flexbox container for the item's info -->
-			<div style="display: flex; flex-direction: row">
-				<!-- Div containing a link to the poster's description page and the poster's image -->
-				<div class="photos">
-					<a href="{{ url_for('PosterDescription.index', id=item[3]) }}"><img src="{{ item[10] }}" alt=""></a>
-				</div>
-				<!-- Div containing the item's name, quantity, size, and price -->
-				<div class="photos">
-					<p style="">{{ item[9] }} #{{ item[3]}}<br></p>
-					<p style="">Quantity: {{ item[6] }}<br></p>
-					<p style="">Size (cm): {{ item[5] }}<br></p>
-				</div>
-				<!-- Div containing the item's price -->
-				<div class="photos">
-					<p style="">Price: {{ item[4] }}$<br></p>
-				</div>
-			</div>
-		</div>
-	{% endif %}
-{% endfor %}
-<!-- Display the total price for the current order -->
-<div class="photos" style="text-align: center">
-	<p class="font">Total price: {{ order[-1] }}$</p>
-</div>
-{% endfor %}
+    <head>
+        <meta charset="UTF-8">
+        <title>My orders</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/myorders.css') }}">
+    </head>
+    <body>
+        <h1 class="font" style="margin: 30px">My orders</h1>
+        {% for order in user_orders %}
+            <h2 style="color: #404040;
+                       display: flex;
+                       flex-direction: column"
+                class="font">{{ order['items'][0]['date'] }} --> order #{{ order['items'][0]['order_id'] }}</h2>
+            {% for item in order['items'] %}
+                <div class="flex_container font">
+                    <a href="{{ url_for('PosterDescription.index', id=item['photo_id']) }}">
+                        <img src="{{ item['url'] }}" alt="">
+                    </a>
+                    <div class="infos">
+                        <p style="">
+                            {{ item['continent'] }} #{{ item['id'] }}
+                            <br>
+                        </p>
+                        <p style="">
+                            Quantity: {{ item['quantity'] }}
+                            <br>
+                        </p>
+                        <p style="">
+                            Size (cm): {{ item['size'] }}
+                            <br>
+                        </p>
+                        <p style="">
+                            Price: {{ item['price'] }}$
+                            <br>
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+            <p class="font total_price">Total price: {{ order['order_total_price'] }}$</p>
+        {% endfor %}
+    </body>
 </html>

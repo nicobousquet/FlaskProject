@@ -1,25 +1,26 @@
-<!-- An HTML template for the admin page of the web application. -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin page</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin page</title>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+        <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css">
+        <style>
         .request {
             margin: 2px;
             background-color: #f8f8f8;
         }
-    </style>
-</head>
-<body>
-    <h1>Requests:</h1>
-    <div class="requests">
-        <!-- Iterates over the `requests` list and creates a paragraph element for each request, with the request information displayed in the paragraph. -->
-        {% for request in requests %}
-        <p class="request"> {{ request[0] }} ({{request[1]}}:{{request[2]}}) at {{request[3]}} ==> {{ request[5] }}  {{ request[4] }} </p>
-        {% endfor %}
-    </div>
-</body>
+        </style>
+    </head>
+    <body>
+        <h1>Requests:</h1>
+        <div class="requests">
+            {% for request in requests %}
+                <p class="request">
+                    {{ request['email_user'] }} ({{ request['ip_addr'] }}:{{ request['port'] }}) at {{ request['date'] }} ==> {{ request['url'] }}  {{ request['method'] }}
+                </p>
+            {% endfor %}
+        </div>
+    </body>
 </html>

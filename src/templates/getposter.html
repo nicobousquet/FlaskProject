@@ -1,114 +1,37 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" , lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>{{region}}</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<style>
-		/* Flex container to hold each group of 3 photos */
-		.flex_container {
-			border-radius: 0px;
-			display: flex;
-			flex-direction: column;
-			overflow: hidden;
-			background-color: #f8f8f8;
-			margin: 1px;
-		}
-
-		/* Style for each photo container */
-		li span1 {
-			padding: 10px;
-			margin: 10px;
-			border-radius: 0px;
-			display: block;
-			width: 300px;
-			height: 150px;
-			font-size: 32px;
-			writing-mode: vertical-lr;
-			writing-mode: horizontal-tb;
-		}
-
-		/* Style for the list of photos */
-		ul.photos {
-			list-style-type: none;
-			text-align: center;
-			font-size: 20px;
-			display: inline;
-			display: flex;
-			flex-direction: row;
-			align-self: center;
-			margin: 0;
-			padding: 0;
-		}
-
-		/* Style for each individual photo */
-		img {
-			max-width: 100%;
-			max-height: 100%;
-			border-radius: 10px;
-			transition: transform 1s;
-		}
-
-		/* Style for when the photo is hovered over */
-		img:hover {
-			-ms-transform: scale(1.08); /* IE 9 */
-			-webkit-transform: scale(1.08); /* Safari 3-8 */
-			transform: scale(1.08);
-		}
-	</style>
-</head>
-<body>
-
-{% set modulo = photos|length % 3 %}
-
-{# If there are 3 or more photos, create a flex container for every 3 photos #}
-{% if photos|length >= 3 %}
-    {% for i in range(0, photos|length // 3) %}
-        <div class="flex_container">
-            <ul class="photos">
-                <li>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ region }}</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/getposter.css') }}">
+    </head>
+    <body>
+        {% set modulo = photos|length % 3 %}
+        {% if photos|length >= 3 %}
+            {% for i in range(0, photos|length // 3) %}
+                <div class="flex_container">
+                    <a href="{{ url_for('PosterDescription.index', id=photos[3 * i]['id']) }}">
+                        <img src="{{ photos[3 * i]['url'] }}" alt="">
+                    </a>
+                    <a href="{{ url_for('PosterDescription.index', id=photos[3 * i + 1]['id']) }}">
+                        <img src="{{ photos[3 * i + 1]['url'] }}" alt="">
+                    </a>
+                    <a href="{{ url_for('PosterDescription.index', id=photos[3 * i + 2]['id']) }}">
+                        <img src="{{ photos[3 * i + 2]['url'] }}" alt="">
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if photos|length % 3 != 0 %}
+            <div class="flex_container">
+                {% for i in range(photos|length % 3) %}
                     <span1>
-                        {# create a link to the PosterDescription page for the first photo in the current flex container #}
-                        <a href="{{ url_for('PosterDescription.index', id=photos[3 * i][0]) }}">
-                            <img src="{{ photos[3 * i][2] }}" alt="">
-                        </a>
+                    <a href="{{ url_for('PosterDescription.index', id=photos[photos|length - (photos|length % 3) + i]['id']) }}">
+                        <img src="{{ photos[photos|length - (photos|length % 3) + i]['url'] }}" alt="">
+                    </a>
                     </span1>
-                </li>
-                <li>
-                    <span1>
-                        {# create a link to the PosterDescription page for the second photo in the current flex container #}
-                        <a href="{{ url_for('PosterDescription.index', id=photos[3 * i + 1][0]) }}">
-                            <img src="{{ photos[3 * i + 1][2] }}" alt="">
-                        </a>
-                    </span1>
-				</li>
-				<li>
-                    <span1>
-                        {# create a link to the PosterDescription page for the third photo in the current flex container #}
-                        <a href="{{ url_for('PosterDescription.index', id=photos[3 * i + 2][0]) }}">
-                            <img src="{{ photos[3 * i + 2][2] }}" alt="">
-                        </a>
-                    </span1>
-				</li>
-			</ul>
-		</div>
-	  {% endfor %}
-{% endif %}
-{% if photos|length % 3 != 0 %}
-  <div class="flex_container">
-    <ul class="photos">
-      {% for i in range(photos|length % 3) %}
-        <li>
-          <span1>
-            {# create a link to the PosterDescription page for the remaining photos #}
-            <a href="{{ url_for('PosterDescription.index', id=photos[photos|length - (photos|length % 3) + i][0]) }}">
-              <img src="{{ photos[photos|length - (photos|length % 3) + i][2] }}" alt="">
-            </a>
-          </span1>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
-</body>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </body>
 </html>

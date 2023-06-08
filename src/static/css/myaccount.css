@@ -1,0 +1,67 @@
+input[type=text], input[type=email], input[type=password], select {
+	padding: 6px 8px;
+	margin: 15px 10px 0 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+#submit {
+	background-color: #abac87;
+	color: white;
+	padding: 14px 20px;
+	margin: 50px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input:enabled[type=submit]:hover {
+	background-color: rgb(25 24 24 / 16%)
+}
+
+.font {
+	font-family: "Google Sans", Roboto, Arial, sans-serif;
+	font-weight: 600;
+	color: #b0b0b4;
+}
+
+.form {
+	text-align: center;
+	margin: 50px;
+}
+
+.title {
+	height: 100px;
+	width: 100%;
+	font-size: 32px;
+	margin-top: 75px;
+}
+
+.line {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.form_box {
+	background-color: #f8f8f8;
+	align-self: center;
+	width: 500px;
+	border-radius: 0 0 10px 10px;
+	height: 100vh;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);;
+	z-index: -1;
+}
+
+#message {
+	font-size: small;
+	margin-top: 20px;
+	font-weight: normal;
+}

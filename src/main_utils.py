@@ -3,9 +3,12 @@
 
 from flask import Flask, request, session
 from datetime import datetime
+import models.RequestsModel
 
 # Import the RequestsModel module, which contains the insert_request function.
 from .models.RequestsModel import *
+
+RequestModel = RequestModel()
 
 
 def before_request(app):
@@ -39,7 +42,7 @@ def before_request(app):
             email_user = 'unknown'
 
         # Insert the request information into the database using the insert_request function.
-        insert_request(email_user, ip_addr, port, formatted_date, method, url)
+        RequestModel.insert_request(email_user, ip_addr, port, formatted_date, method, url)
 
     # This inner function is a Flask before_request handler that checks the session for
     # the 'login' and 'password' keys. If they are not present, it sets their values to

@@ -1,70 +1,43 @@
-# Import the database connection function
-from .db_config import db_connect
+from typing import List, Dict, Any
+from .Model import Model
 
 
-def insert_item_into_cart(email_user, photo_id, quantity, size, price):
-    """
-    Inserts a new item into the cart in the database with the given information.
+class CartModel(Model):
+    def __init__(self) -> None:
+        super().__init__()
+        self._TABLE_NAME = 'Cart'
+        self._EMAIL_USER = 'email_user'
+        self._PHOTO_ID = 'photo_id'
+        self._QUANTITY = 'quantity'
+        self._SIZE = 'size'
+        self._PRICE = 'price'
 
-    Parameters:
-        email_user (str): the email address of the user adding the item to the cart.
-        photo_id (int): the ID of the photo being added to the cart.
-        quantity (int): the number of copies of the photo being added.
-        size (str): the size of the photo being added.
-        price (float): the price of the photo being added.
-    """
-    connection = db_connect('root', 'root', 'localhost', 'php_db')
-    cursor = connection.cursor()
-    query = "INSERT INTO Cart (email_user, photo_id, quantity, size, price) VALUES (%s, %s, %s, %s, %s)"
-    cursor.execute(query, (email_user, photo_id, quantity, size, price))
-    connection.commit()
-    connection.close()
+    def insert_item_into_cart(self, email_user: str, photo_id: int, quantity: int, size: str, price: float) -> None:
+        cursor, conn = self.connect()
+        query = f"INSERT INTO {self._TABLE_NAME} ({self._EMAIL_USER}, {self._PHOTO_ID}, {self._QUANTITY}, {self._SIZE}, {self._PRICE}) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(query, (email_user, photo_id, quantity, size, price))
+        conn.commit()
+        self.disconnect(cursor, conn)
 
+    def select_items_from_cart(self, email: str) -> List[Dict[str, Any]]:
+        cursor, conn = self.connect()
+        query = f"SELECT * FROM {self._TABLE_NAME} INNER JOIN Photos ON Photos.id = {self._PHOTO_ID} WHERE {self._EMAIL_USER} = %s"
+        cursor.execute(query, (email,))
+        result = cursor.fetchall()
+        cart_items = [{column: value for column, value in zip(cursor.column_names, row)} for row in result]
+        self.disconnect(cursor, conn)
+        return cart_items
 
-def select_item_from_cart(email):
-    """
-    Gets all the items in the cart for the given user from the database.
+    def delete_item(self, email: str, id: int, quantity: int, size: str) -> None:
+        cursor, conn = self.connect()
+        query = f"DELETE FROM {self._TABLE_NAME} WHERE {self._EMAIL_USER} = %s AND {self._PHOTO_ID} = %s AND {self._QUANTITY} = %s AND {self._SIZE} = %s LIMIT 1"
+        cursor.execute(query, (email, id, quantity, size))
+        conn.commit()
+        self.disconnect(cursor, conn)
 
-    Parameters:
-        email (str): the email address of the user whose cart we are selecting items from.
-
-    Returns:
-        A list of tuples, where each tuple represents an item in the cart.
-    """
-    connection = db_connect('root', 'root', 'localhost', 'php_db')
-    cursor = connection.cursor()
-    query = "SELECT * FROM Cart INNER JOIN Photos ON Photos.id = Cart.photo_id WHERE email_user = %s"
-    cursor.execute(query, (email,))
-    result = cursor.fetchall()
-    connection.close()
-    return result
-
-
-def delete_item(email, id, quantity, size):
-    """
-    Deletes a specific item from the cart in the database with the given information.
-
-    Parameters:
-        email (str): the email address of the user whose cart we are deleting the item from.
-        id (int): the ID of the photo being deleted.
-        quantity (int): the number of copies of the photo being deleted.
-        size (str): the size of the photo being deleted.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    query = "DELETE FROM Cart WHERE email_user = %s AND photo_id = %s AND quantity = %s AND size = %s LIMIT 1"
-    cursor.execute(query, (email, id, quantity, size))
-    connection.commit()
-    connection.close()
-
-
-def delete_all():
-    """
-    Deletes all items from the cart in the database.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    query = "TRUNCATE TABLE Cart"
-    cursor.execute(query)
-    connection.commit()
-    connection.close()
+    def delete_all(self, email: str) -> None:
+        cursor, conn = self.connect()
+        query = f"DELETE FROM {self._TABLE_NAME} WHERE {self._EMAIL_USER} = %s"
+        cursor.execute(query, (email,))
+        conn.commit()
+        self.disconnect(cursor, conn)

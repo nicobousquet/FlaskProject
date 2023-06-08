@@ -1,0 +1,82 @@
+div.flex_container {
+	display: flex;
+	flex-direction: row;
+}
+
+div.photo_div {
+	width: 50%;
+	align-self: center;
+	display: flex;
+	justify-content: center;
+	margin: 2px;
+	padding: 10px;
+}
+
+div.product_info {
+	display: flex;
+	flex-direction: column;
+	background-color: #f8f8f8;
+	width: 50%;
+	height: 430px;
+	padding: 40px;
+}
+
+.title {
+	height: 100px;
+	font-size: 32px;
+	margin-top: 75px;
+}
+
+img {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.button label,
+.button input {
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+.button input[type="radio"] {
+	opacity: 0.011;
+	z-index: 100;
+	width: 90%;
+	height: 90%;
+}
+
+.button input[type="radio"]:not(:checked) + label {
+	background-color: #e9d8d8;
+	border-radius: 4px;
+}
+
+.button input[type="radio"]:checked + label {
+	background: #20b8be;
+	border-radius: 4px;
+}
+
+.button label {
+	cursor: pointer;
+	z-index: 90;
+	line-height: 1.8em;
+}
+
+.font {
+	font-family: "Google Sans", Roboto, Arial, sans-serif;
+	font-weight: 600;
+	color: #b0b0b4;
+}
+
+.size_container {
+	margin-bottom: 10px;
+}
+
+#quantity {
+	display: flex;
+	flex-direction: column;
+}

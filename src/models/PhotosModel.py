@@ -1,40 +1,29 @@
-# Import the database connection function
-from .db_config import db_connect
+from typing import List, Dict, Any
+from .Model import Model
 
 
-def select_photos_by_continent(continent):
-    """
-    Gets all the photos from the 'Photos' table in the database that have the specified continent.
+class PhotosModel(Model):
+    def __init__(self) -> None:
+        super().__init__()
+        self._TABLE_NAME = 'Photos'
+        self._ID = 'id'
+        self._CONTINENT = 'continent'
+        self._URL = 'url'
 
-    Parameters:
-        continent (str): the continent to filter the photos by.
+    def select_photos_by_continent(self, continent: str) -> List[Dict[str, Any]]:
+        cursor, conn = self.connect()
+        query = f"SELECT * FROM {self._TABLE_NAME} WHERE {self._CONTINENT}=%s"
+        cursor.execute(query, (continent,))
+        result = cursor.fetchall()
+        photos = [{column: value for column, value in zip(cursor.column_names, row)} for row in result]
+        self.disconnect(cursor, conn)
+        return photos
 
-    Returns:
-        A list of tuples, where each tuple represents a photo in the 'Photos' table that has the specified continent.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM {} WHERE continent=%s".format('Photos'), (continent,))
-    result = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return result
-
-
-def select_photo_by_id(id):
-    """
-    Gets the photo from the 'Photos' table in the database with the specified ID.
-
-    Parameters:
-        id (int): the ID of the photo to retrieve.
-
-    Returns:
-        A list of tuples, where each tuple represents a photo in the 'Photos' table that has the specified ID.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM {} WHERE id=%s".format('Photos'), (id,))
-    result = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return result
+    def select_photo_by_id(self, photo_id: int) -> Dict[str, Any]:
+        cursor, conn = self.connect()
+        query = f"SELECT * FROM {self._TABLE_NAME} WHERE {self._ID}=%s"
+        cursor.execute(query, (photo_id,))
+        result = cursor.fetchone()
+        photo = {column: value for column, value in zip(cursor.column_names, result)}
+        self.disconnect(cursor, conn)
+        return photo

@@ -1,61 +1,46 @@
-# Import the database connection function
-from .db_config import db_connect
+from .Model import Model
+from typing import Dict, Any, Optional, List
 
 
-def insert_new_user(first_name, last_name, email, password):
-    """
-    Inserts a new user into the 'Users' table in the database with the given information.
+class UsersModel(Model):
+    TABLE_NAME = 'Users'
+    FIRST_NAME = 'first_name'
+    LAST_NAME = 'last_name'
+    EMAIL = 'email'
+    PASSWORD = 'password'
 
-    Parameters:
-        first_name (str): the first name of the user.
-        last_name (str): the last name of the user.
-        email (str): the email address of the user.
-        password (str): the password of the user.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    query = "INSERT INTO {} (first_name, last_name, email, password) VALUES (%s, %s, %s, %s)".format('Users')
-    values = (first_name, last_name, email, password)
-    cursor.execute(query, values)
-    connection.commit()
-    cursor.close()
-    connection.close()
+    def __init__(self) -> None:
+        super().__init__()
 
+    def insert_new_user(self, first_name: str, last_name: str, email: str, password: str) -> None:
+        cursor, conn = self.connect()
+        query = f"INSERT INTO {UsersModel.TABLE_NAME} ({UsersModel.FIRST_NAME}, {UsersModel.LAST_NAME}, {UsersModel.LAST_NAME}, {UsersModel.PASSWORD}) VALUES (%s, %s, %s, %s)"
+        values = (first_name, last_name, email, password)
+        cursor.execute(query, values)
+        conn.commit()
+        self.disconnect(cursor, conn)
 
-def select_user_by_email_and_password(email, password):
-    """
-    Gets the user from the 'Users' table in the database with the specified email and password.
+    def select_user_by_email_and_password(self, email: str, password: str) -> Optional[Dict[str, Any]]:
+        cursor, conn = self.connect()
+        query = f"SELECT * FROM {UsersModel.TABLE_NAME} WHERE {UsersModel.EMAIL} = %s AND {UsersModel.PASSWORD} = %s"
+        values = (email, password)
+        cursor.execute(query, values)
+        result = cursor.fetchone()
 
-    Parameters:
-        email (str): the email address of the user to retrieve.
-        password (str): the password of the user to retrieve.
+        # Transform the tuple to a dictionary
+        if result:
+            user = {column: value for column, value in zip(cursor.column_names, result)}
+            self.disconnect(cursor, conn)
+            return user
+        else:
+            return None
 
-    Returns:
-        A list of tuples, where each tuple represents
+    def select_user_by_email(self, email: str) -> List[Dict[str, Any]]:
+        cursor, conn = self.connect()
+        query = f"SELECT * FROM {UsersModel.TABLE_NAME} WHERE {UsersModel.EMAIL} = %s"
+        values = (email,)
+        cursor.execute(query, values)
+        users = cursor.fetchall()
+        self.disconnect(cursor, conn)
+        return users
 
-        a user in the 'Users' table that has the specified email and password.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    query = "SELECT * FROM {} WHERE email = %s AND password = %s".format('Users')
-    values = (email, password)
-    cursor.execute(query, values)
-    return cursor.fetchall()
-
-
-def select_user_by_email(email):
-    """
-    Gets the user from the 'Users' table in the database with the specified email.
-
-    Parameters:
-        email (str): the email address of the user to retrieve.
-
-    Returns:
-        A list of tuples, where each tuple represents a user in the 'Users' table that has the specified email.
-    """
-    connection = db_connect()
-    cursor = connection.cursor()
-    query = "SELECT * FROM {} WHERE email = %s".format('Users')
-    values = (email,)
-    cursor.execute(query, values)
-    return cursor.fetchall()

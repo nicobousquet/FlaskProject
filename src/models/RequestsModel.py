@@ -1,39 +1,31 @@
-# Import the database connection function and the Binary type
-from .db_config import db_connect
+from .Model import Model
 from mysql.connector import Binary
+from typing import List, Dict, Any
 
 
-def insert_request(email_user, ip_addr, port, date, method, url):
-    """
-    Inserts a new request into the 'Requests' table in the database with the given information.
+class RequestModel(Model):
+    def __init__(self):
+        super().__init__()
+        self._TABLE_NAME = 'Requests'
+        self._EMAIL_USER = 'email_user'
+        self._IP_ADDR = 'ip_addr'
+        self._PORT = 'port'
+        self._DATE = 'date'
+        self._METHOD = 'method'
+        self._URL = 'url'
 
-    Parameters:
-        email_user (str): the email address of the user who made the request.
-        ip_addr (str): the IP address of the client that made the request.
-        port (int): the port number of the client that made the request.
-        date (str): the date and time the request was made, in the format 'YYYY-MM-DD HH:MM:SS'.
-        method (str): the HTTP method of the request.
-        url (str): the URL of the request.
-    """
-    connection = db_connect('root', 'root', 'localhost', 'php_db')
-    cursor = connection.cursor()
-    query = "INSERT INTO Requests (email_user, ip_addr, port, date, method, url) VALUES (%s, %s, %s, %s, %s, %s)"
-    cursor.execute(query, (email_user, ip_addr, port, date, method, Binary(url, '    utf-8')))
-    connection.commit()
-    connection.close()
+    def insert_request(self, email_user: str, ip_addr: str, port: int, date: str, method: str, url: str) -> None:
+        cursor, conn = self.connect()
+        query = f"INSERT INTO {self._TABLE_NAME} ({self._EMAIL_USER}, {self._IP_ADDR}, {self._PORT}, {self._DATE}, {self._METHOD}, {self._URL}) VALUES (%s, %s, %s, %s, %s, %s)"
+        cursor.execute(query, (email_user, ip_addr, port, date, method, Binary(url, 'utf-8')))
+        conn.commit()
+        self.disconnect(cursor, conn)
 
-
-def select_requests():
-    """
-    Gets all the requests from the 'Requests' table in the database, ordered by date in descending order.
-
-    Returns:
-        A list of tuples, where each tuple represents a request in the 'Requests' table.
-    """
-    connection = db_connect('root', 'root', 'localhost', 'php_db')
-    cursor = connection.cursor()
-    query = "SELECT email_user, ip_addr, port, date, url, method FROM Requests ORDER BY date DESC"
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    connection.close()
-    return rows
+    def select_requests(self) -> List[Dict[str, Any]]:
+        cursor, conn = self.connect()
+        query = f"SELECT {self._EMAIL_USER}, {self._IP_ADDR}, {self._PORT}, {self._DATE}, {self._URL}, {self._METHOD} FROM {self._TABLE_NAME} ORDER BY date DESC"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        requests = [{column: value for column, value in zip(cursor.column_names, row)} for row in result]
+        self.disconnect(cursor, conn)
+        return requests
