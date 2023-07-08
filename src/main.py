@@ -15,8 +15,6 @@ from src.controllers.CallUMAPal import callumapal
 from src.controllers.MyOrders import myorders
 from src.controllers.PaymentSuccess import paymentsuccess
 from src.controllers.PaymentCancel import paymentcancel
-from src.controllers.AdminPage import adminpage
-
 # Import the UMAPal payment processing module and some utility functions.
 from src.umapal.ProcessPayment import umapal
 from src.main_utils import *
@@ -39,7 +37,6 @@ app.register_blueprint(callumapal)
 app.register_blueprint(myorders)
 app.register_blueprint(paymentsuccess)
 app.register_blueprint(paymentcancel)
-app.register_blueprint(adminpage)
 app.register_blueprint(umapal)
 
 # Set a secret key for the Flask app.

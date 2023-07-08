@@ -15,7 +15,7 @@
             {% for item in order['items'] %}
                 <div class="flex_container font">
                     <a href="{{ url_for('PosterDescription.index', id=item['photo_id']) }}">
-                        <img src="{{ item['url'] }}" alt="">
+                        <img src="{{ url_for('static', filename=item['filepath']) }}" alt="">
                     </a>
                     <div class="infos">
                         <p style="">

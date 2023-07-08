@@ -5,7 +5,7 @@ from .Model import Model
 class CartModel(Model):
     def __init__(self) -> None:
         super().__init__()
-        self._TABLE_NAME = 'Cart'
+        self._TABLE_NAME = 'cart'
         self._EMAIL_USER = 'email_user'
         self._PHOTO_ID = 'photo_id'
         self._QUANTITY = 'quantity'
@@ -21,7 +21,7 @@ class CartModel(Model):
 
     def select_items_from_cart(self, email: str) -> List[Dict[str, Any]]:
         cursor, conn = self.connect()
-        query = f"SELECT * FROM {self._TABLE_NAME} INNER JOIN Photos ON Photos.id = {self._PHOTO_ID} WHERE {self._EMAIL_USER} = %s"
+        query = f"SELECT * FROM {self._TABLE_NAME} INNER JOIN photos ON photos.id = {self._PHOTO_ID} WHERE {self._EMAIL_USER} = %s"
         cursor.execute(query, (email,))
         result = cursor.fetchall()
         cart_items = [{column: value for column, value in zip(cursor.column_names, row)} for row in result]

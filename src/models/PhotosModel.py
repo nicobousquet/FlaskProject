@@ -5,10 +5,10 @@ from .Model import Model
 class PhotosModel(Model):
     def __init__(self) -> None:
         super().__init__()
-        self._TABLE_NAME = 'Photos'
+        self._TABLE_NAME = 'photos'
         self._ID = 'id'
         self._CONTINENT = 'continent'
-        self._URL = 'url'
+        self._FILEPATH = 'filepath'
 
     def select_photos_by_continent(self, continent: str) -> List[Dict[str, Any]]:
         cursor, conn = self.connect()

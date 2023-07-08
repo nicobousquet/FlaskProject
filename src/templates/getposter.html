@@ -11,13 +11,13 @@
             {% for i in range(0, photos|length // 3) %}
                 <div class="flex_container">
                     <a href="{{ url_for('PosterDescription.index', id=photos[3 * i]['id']) }}">
-                        <img src="{{ photos[3 * i]['url'] }}" alt="">
+                        <img src="{{ url_for('static', filename=photos[3 * i]['filepath']) }}" alt="">
                     </a>
                     <a href="{{ url_for('PosterDescription.index', id=photos[3 * i + 1]['id']) }}">
-                        <img src="{{ photos[3 * i + 1]['url'] }}" alt="">
+                        <img src="{{ url_for('static', filename=photos[3 * i + 1]['filepath']) }}" alt="">
                     </a>
                     <a href="{{ url_for('PosterDescription.index', id=photos[3 * i + 2]['id']) }}">
-                        <img src="{{ photos[3 * i + 2]['url'] }}" alt="">
+                        <img src="{{ url_for('static', filename=photos[3 * i + 2]['filepath']) }}" alt="">
                     </a>
                 </div>
             {% endfor %}
@@ -27,7 +27,7 @@
                 {% for i in range(photos|length % 3) %}
                     <span1>
                     <a href="{{ url_for('PosterDescription.index', id=photos[photos|length - (photos|length % 3) + i]['id']) }}">
-                        <img src="{{ photos[photos|length - (photos|length % 3) + i]['url'] }}" alt="">
+                        <img src="{{ url_for('static', filename=photos[photos|length - (photos|length % 3) + i]['filepath']) }}" alt="">
                     </a>
                     </span1>
                 {% endfor %}

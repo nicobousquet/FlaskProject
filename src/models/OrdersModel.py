@@ -5,7 +5,7 @@ from .Model import Model
 class OrdersModel(Model):
     def __init__(self) -> None:
         super().__init__()
-        self._TABLE_NAME = 'Orders'
+        self._TABLE_NAME = 'orders'
         self._EMAIL_USER = 'email_user'
         self._ORDER_ID = 'order_id'
         self._PHOTO_ID = "photo_id"
@@ -23,7 +23,7 @@ class OrdersModel(Model):
 
     def select_orders(self, email_user: str) -> List[Dict[str, Any]]:
         cursor, conn = self.connect()
-        sql = f"SELECT * FROM {self._TABLE_NAME} INNER JOIN Photos ON Photos.id = Orders.photo_id WHERE {self._EMAIL_USER} = %s ORDER BY {self._DATE} DESC, {self._ORDER_ID}"
+        sql = f"SELECT * FROM {self._TABLE_NAME} INNER JOIN photos ON photos.id = orders.photo_id WHERE {self._EMAIL_USER} = %s ORDER BY {self._DATE} DESC, {self._ORDER_ID}"
         cursor.execute(sql, (email_user,))
         result = cursor.fetchall()
         orders = [{column: value for column, value in zip(cursor.column_names, row)} for row in result]

@@ -15,7 +15,7 @@
                             margin-bottom: 1px;
                             background-color: #f8f8f8">
                     <a href="{{ url_for('PosterDescription.index', id=item['id']) }}">
-                        <img src="{{ item['url'] }}" alt="">
+                        <img src="{{ url_for('static', filename=item['filepath']) }}" alt="">
                     </a>
                     <div class="infos">
                         <p style="">

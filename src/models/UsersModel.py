@@ -3,7 +3,7 @@ from typing import Dict, Any, Optional, List
 
 
 class UsersModel(Model):
-    TABLE_NAME = 'Users'
+    TABLE_NAME = 'users'
     FIRST_NAME = 'first_name'
     LAST_NAME = 'last_name'
     EMAIL = 'email'

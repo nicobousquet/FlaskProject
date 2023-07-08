@@ -37,7 +37,7 @@
     <body>
         <div class="flex_container">
             <div class="photo_div">
-                <img src="{{ photo['url'] }}" alt="">
+                <img src="{{ url_for('static', filename=photo['filepath']) }}" alt="">
             </div>
             <div class="product_info">
                 <form class="size_form" name="size_form" action="{{ url_for('MyCart.add_to_cart', id=photo['id']) }}" method="post">

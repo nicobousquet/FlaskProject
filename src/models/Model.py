@@ -3,7 +3,7 @@ from abc import ABC
 
 
 class Model(ABC):
-    def __init__(self, username: str = 'root', password: str = '', host: str = 'localhost', database: str = 'database') -> None:
+    def __init__(self, username: str = 'root', password: str = '', host: str = 'localhost', database: str = 'my_website_db') -> None:
         self.__username = username
         self.__password = password
         self.__host = host
